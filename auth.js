@@ -1,11 +1,12 @@
-var recipePath = __base + '/recipes/cakephp2-cms';
-var pluginPath = './output/Plugin/Cms';
-var assetsPath = recipePath + '/assets';
-var templatesPath = recipePath + '/templates/auth';
+
+var RECIPE_PATH = RECIPES_PATH + '/cakephp2-cms';
+var TEMPLATES_PATH = RECIPE_PATH + '/templates/auth';
+var ASSETS_PATH = RECIPE_PATH + '/assets';
+var CMS_PATH = OUTPUT_PATH + '/Plugin/Cms';
 
 var fs = require('fs-extra');
 var async = require('async');
-var burner = require(__base + '/burner');
+var burner = require(BASE_PATH + '/burner');
 
 var auth = {
     
@@ -37,15 +38,15 @@ var auth = {
 module.exports = auth;
 
 var cookControllers = function(json, callback) {
-    var source = templatesPath + '/controller.php';
-    var dest = pluginPath + '/Controller/AuthController.php';
+    var source = TEMPLATES_PATH + '/controller.php';
+    var dest = CMS_PATH + '/Controller/AuthController.php';
     var params = {};
     burner.template(source, dest, params, callback);
 };
 
 var cookModels = function(json, callback) {
-    var source = templatesPath + '/model.php';
-    var dest = pluginPath + '/Model/Admin.php';
+    var source = TEMPLATES_PATH + '/model.php';
+    var dest = CMS_PATH + '/Model/Admin.php';
     var params = {};
     burner.template(source, dest, params, callback);
 };
@@ -56,8 +57,8 @@ var cookViews = function(json, callback) {
 };
 
 var cookAuthView = function(viewName, callback) {
-    var source = templatesPath + '/views/' + viewName + '.ctp';
-    var dest = pluginPath + '/View/Auth/' + viewName + '.ctp';
+    var source = TEMPLATES_PATH + '/views/' + viewName + '.ctp';
+    var dest = CMS_PATH + '/View/Auth/' + viewName + '.ctp';
     var viewVars = {
         CMS: auth.config.appName || "CMS"
     };
@@ -65,7 +66,7 @@ var cookAuthView = function(viewName, callback) {
 };
 
 var cookAssets = function(json, callback) {
-    var source = assetsPath + '/schema.sql';
-    var dest = './output/scripts/auth.sql';
+    var source = ASSETS_PATH + '/schema.sql';
+    var dest = OUTPUT_PATH + '/scripts/auth.sql';
     fs.copy(source, dest, callback);
 };

@@ -1,12 +1,13 @@
-var pluginPath = './output/Plugin/Cms';
-var recipePath = __base + '/recipes/cakephp2-cms';
-var assetsPath = recipePath + '/assets';
-var templatesPath = recipePath + '/templates';
+
+var RECIPE_PATH = RECIPES_PATH + '/cakephp2-cms';
+var TEMPLATES_PATH = RECIPE_PATH + '/templates';
+var ASSETS_PATH = RECIPE_PATH + '/assets';
+var CMS_PATH = OUTPUT_PATH + '/Plugin/Cms';
 
 var fs = require('fs-extra');
 var async = require('async');
 var inflect = require('inflect');
-var burner = require(__base + '/burner');
+var burner = require(BASE_PATH + '/burner');
 
 var crud = {
     
@@ -36,8 +37,8 @@ module.exports = crud;
 
 var cookCrudController = function(config, callback) {
     var params = getControllerVars(config);
-    var source = templatesPath + '/controllers/crud_controller.php';
-    var dest = pluginPath + '/Controller/' + params.Models + 'Controller.php';
+    var source = TEMPLATES_PATH + '/controllers/crud_controller.php';
+    var dest = CMS_PATH + '/Controller/' + params.Models + 'Controller.php';
     burner.template(source, dest, params, callback);
 };
 
@@ -45,7 +46,7 @@ var cookCrudViews = function(config, callback) {
     
     var params = getControllerVars(config);
     
-    fs.mkdir(pluginPath + '/View/' + params.Models, function(error) {
+    fs.mkdir(CMS_PATH + '/View/' + params.Models, function(error) {
         if( error ) {
             callback(error);
         }
@@ -66,8 +67,8 @@ var cookCrudViews = function(config, callback) {
 
 var cookView = function(view, callback) {
     var params = getControllerVars(view.config);
-    var source = templatesPath + '/views/crud/' + view.view + '.ctp';
-    var dest = pluginPath + '/View/' + params.Models + '/' + view.view + '.ctp';
+    var source = TEMPLATES_PATH + '/views/crud/' + view.view + '.ctp';
+    var dest = CMS_PATH + '/View/' + params.Models + '/' + view.view + '.ctp';
     burner.template(source, dest, params, callback);
 };
 

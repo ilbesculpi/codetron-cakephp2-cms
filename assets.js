@@ -1,12 +1,13 @@
-var pluginPath = './output/Plugin/Cms';
-var recipePath = __base + '/recipes/cakephp2-cms';
-var assetsPath = recipePath + '/assets';
-var templatesPath = recipePath + '/templates';
+
+var RECIPE_PATH = RECIPES_PATH + '/cakephp2-cms';
+var TEMPLATES_PATH = RECIPE_PATH + '/templates';
+var ASSETS_PATH = RECIPE_PATH + '/assets';
+var CMS_PATH = OUTPUT_PATH + '/Plugin/Cms';
 
 var fs = require('fs-extra');
 var async = require('async');
 var bower = require('bower');
-var burner = require(__base + '/burner');
+var burner = require(BASE_PATH + '/burner');
 
 var assets = {
     
@@ -21,7 +22,7 @@ var assets = {
         // try to install dependencies using bower
         // { cwd: tempDir.path }
         bower.commands
-            .install([], {}, { cwd: pluginPath })
+            .install([], {}, { cwd: CMS_PATH })
             .on('end', function(installed) {
                 callback();
             })
@@ -38,18 +39,18 @@ module.exports = assets;
 var copyAssets = function(json, callback) {
     async.series([
         function(callback) {
-            var source = assetsPath + '/bower.json';
-            var dest = pluginPath + '/bower.json';
+            var source = ASSETS_PATH + '/bower.json';
+            var dest = CMS_PATH + '/bower.json';
             fs.copy(source, dest, callback);
         },
         function(callback) {
-            var source = assetsPath + '/bowerrc';
-            var dest = pluginPath + '/.bowerrc';
+            var source = ASSETS_PATH + '/bowerrc';
+            var dest = CMS_PATH + '/.bowerrc';
             fs.copy(source, dest, callback);
         },
         function(callback) {
-            var source = assetsPath + '/webroot';
-            var dest = pluginPath + '/webroot';
+            var source = ASSETS_PATH + '/webroot';
+            var dest = CMS_PATH + '/webroot';
             fs.copy(source, dest, callback);
         }
     ], function(error, results) {

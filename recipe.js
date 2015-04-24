@@ -1,15 +1,17 @@
-var pluginPath = './output/Plugin/Cms';
-var recipePath = __base + '/recipes/cakephp2-cms';
-var assetsPath = recipePath + '/assets';
-var templatesPath = recipePath + '/templates';
+
+var RECIPE_PATH = RECIPES_PATH + '/cakephp2-cms';
+var TEMPLATES_PATH = RECIPE_PATH + '/templates';
+var ASSETS_PATH = RECIPE_PATH + '/assets';
+var CMS_PATH = OUTPUT_PATH + '/Plugin/Cms';
 
 var fs = require('fs-extra');
 var async = require('async');
 var inflect = require('inflect');
-var burner = require(__base + '/burner');
-var auth = require(recipePath + '/auth');
-var assets = require(recipePath + '/assets');
-var crud = require(recipePath + '/crud');
+
+var burner = require(BASE_PATH   + '/burner');
+var auth   = require(RECIPE_PATH + '/auth');
+var assets = require(RECIPE_PATH + '/assets');
+var crud   = require(RECIPE_PATH + '/crud');
 
 module.exports = {
     
@@ -53,20 +55,20 @@ module.exports = {
 var init = function(config, json, callback) {
     async.series([
         function(callback) {
-            fs.emptyDir(pluginPath, callback);
+            fs.emptyDir(CMS_PATH, callback);
         },
         function(callback) {
             burner.mkdirs([
-                pluginPath,
-                pluginPath + '/Config',
-                pluginPath + '/Controller',
-                pluginPath + '/Model',
-                pluginPath + '/View',
-                pluginPath + '/View/Auth',
-                pluginPath + '/View/Elements',
-                pluginPath + '/View/Helper',
-                pluginPath + '/View/Layouts',
-                pluginPath + '/webroot'
+                CMS_PATH,
+                CMS_PATH + '/Config',
+                CMS_PATH + '/Controller',
+                CMS_PATH + '/Model',
+                CMS_PATH + '/View',
+                CMS_PATH + '/View/Auth',
+                CMS_PATH + '/View/Elements',
+                CMS_PATH + '/View/Helper',
+                CMS_PATH + '/View/Layouts',
+                CMS_PATH + '/webroot'
             ], callback);
         }
     ], function(error, results) {
@@ -77,47 +79,47 @@ var init = function(config, json, callback) {
 var cookAppTemplates = function(json, callback) {
     async.parallel([
         function(callback) {
-            var source = templatesPath + '/controllers/app_controller.php';
-            var dest = pluginPath + '/Controller/CmsAppController.php';
+            var source = TEMPLATES_PATH + '/controllers/app_controller.php';
+            var dest = CMS_PATH + '/Controller/CmsAppController.php';
             var params = {};
             burner.template(source, dest, params, callback);
         },
         function(callback) {
-            var source = templatesPath + '/models/app_model.php';
-            var dest = pluginPath + '/Model/CmsAppModel.php';
+            var source = TEMPLATES_PATH + '/models/app_model.php';
+            var dest = CMS_PATH + '/Model/CmsAppModel.php';
             var params = {};
             burner.template(source, dest, params, callback);
         },
         function(callback) {
-            var source = templatesPath + '/controllers/dashboard_controller.php';
-            var dest = pluginPath + '/Controller/DashboardController.php';
+            var source = TEMPLATES_PATH + '/controllers/dashboard_controller.php';
+            var dest = CMS_PATH + '/Controller/DashboardController.php';
             var params = {};
             burner.template(source, dest, params, callback);
         },
         function(callback) {
-            var source = templatesPath + '/config/routes.php';
-            var dest = pluginPath + '/Config/routes.php';
+            var source = TEMPLATES_PATH + '/config/routes.php';
+            var dest = CMS_PATH + '/Config/routes.php';
             var params = {};
             burner.template(source, dest, params, callback);
         },
         function(callback) {
-            var source = templatesPath + '/views/elements';
-            var dest = pluginPath + '/View/Elements';
+            var source = TEMPLATES_PATH + '/views/elements';
+            var dest = CMS_PATH + '/View/Elements';
             fs.copy(source, dest, callback);
         },
         function(callback) {
-            var source = templatesPath + '/views/layouts';
-            var dest = pluginPath + '/View/Layouts';
+            var source = TEMPLATES_PATH + '/views/layouts';
+            var dest = CMS_PATH + '/View/Layouts';
             fs.copy(source, dest, callback);
         },
         function(callback) {
-            var source = templatesPath + '/views/helpers/theme_helper.php';
-            var dest = pluginPath + '/View/Helper/ThemeHelper.php';
+            var source = TEMPLATES_PATH + '/views/helpers/theme_helper.php';
+            var dest = CMS_PATH + '/View/Helper/ThemeHelper.php';
             fs.copy(source, dest, callback);
         },
         function(callback) {
-            var source = templatesPath + '/views/dashboard/home.ctp';
-            var dest = pluginPath + '/View/Dashboard/home.ctp';
+            var source = TEMPLATES_PATH + '/views/dashboard/home.ctp';
+            var dest = CMS_PATH + '/View/Dashboard/home.ctp';
             fs.copy(source, dest, callback);
         }
     ], function(error, results) {
