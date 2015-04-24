@@ -1,0 +1,41 @@
+/* DASHBOARD */
+.dashboard .icon {
+	/*height: 128px;*/
+	border: solid 1px #ccc;
+	border-radius: 5px;
+	padding: 8px;
+}
+.dashboard > .row {
+	margin: 40px 0px 10px;
+}
+.dashboard h2 {
+	font-size: 14px;
+	margin: 10px 0;
+}
+.dashboard .credits {
+	margin-top: 20%;
+}
+
+/* SPONSORS */
+.sponsors .img-thumbnail,
+.runnerclubs .img-thumbnail {
+	height: 200px;
+}
+
+/* CUSTOM */
+
+.datetime {
+	max-width: 250px;
+}
+
+.text-truncate {
+  width: 98%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cake-error, pre {
+	position: absolute;
+	z-index: 2000;
+}
